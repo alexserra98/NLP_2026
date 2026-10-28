@@ -3,10 +3,11 @@
 torch==2.5.0
 numpy==1.26.4
 einops==0.8.0
-jaxtyping==0.2.34
+jaxtyping==0.3.11
 
 # Transformers / mechanistic interpretability
 transformers==4.56.1
+transformer_lens==2.15.4
 datasets==3.0.1
 # Keep Arrow compatible with the NumPy 1.x version used by these labs.
 pyarrow==17.0.0

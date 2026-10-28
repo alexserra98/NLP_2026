@@ -91,12 +91,10 @@ def rand_int_test(cls, shape):
     print("Output shape:", output.shape, "\n")
 
 
-def load_gpt2_test(cls, weight_name, gpt2_weight, input, reference_output):
-    """Copy a GPT-2 weight matrix into a fresh `cls` layer and compare its output to `reference_output`."""
+def load_gpt2_test(cls, gpt2_layer, input):
     cfg = _Config(debug=True)
     layer = cls(cfg).to(_device)
-    with t.no_grad():
-        getattr(layer, weight_name).copy_(gpt2_weight)
+    layer.load_state_dict(gpt2_layer.state_dict(), strict=False)
     print("Input shape:", input.shape)
     orig_input = input.clone()
     output = layer(orig_input)
@@ -104,6 +102,10 @@ def load_gpt2_test(cls, weight_name, gpt2_weight, input, reference_output):
     if isinstance(output, tuple):
         output = output[0]
     print("Output shape:", output.shape)
+    try:
+        reference_output = gpt2_layer(input)
+    except:
+        reference_output = gpt2_layer(input, input, input)
     print("Reference output shape:", reference_output.shape, "\n")
     comparison = t.isclose(output, reference_output, atol=1e-4, rtol=1e-3)
     print(f"{comparison.sum() / comparison.numel():.2%} of the values are correct\n")
@@ -199,11 +201,9 @@ def test_embed(Embed, gpt2_embed=None, tokens=None):
         "Different token IDs should produce different embeddings"
     )
 
-    # 5. GPT-2 comparison (if reference layer provided, e.g. Hugging Face's `transformer.wte`)
+    # 5. GPT-2 comparison (if reference layer provided)
     if gpt2_embed is not None and tokens is not None:
-        with t.no_grad():
-            reference_output = gpt2_embed(tokens)
-        load_gpt2_test(Embed, "W_E", gpt2_embed.weight, tokens, reference_output)
+        load_gpt2_test(Embed, gpt2_embed, tokens)
 
     print("All tests in `test_embed` passed!")
 
@@ -244,13 +244,9 @@ def test_pos_embed(PosEmbed, gpt2_pos_embed=None, tokens=None):
         "Positional embeddings should be identical across all items in the batch"
     )
 
-    # 5. GPT-2 comparison (if reference layer provided, e.g. Hugging Face's `transformer.wpe`)
+    # 5. GPT-2 comparison
     if gpt2_pos_embed is not None and tokens is not None:
-        batch, seq_len = tokens.shape
-        with t.no_grad():
-            positions = t.arange(seq_len, device=tokens.device)
-            reference_output = gpt2_pos_embed(positions).expand(batch, -1, -1)
-        load_gpt2_test(PosEmbed, "W_pos", gpt2_pos_embed.weight, tokens, reference_output)
+        load_gpt2_test(PosEmbed, gpt2_pos_embed, tokens)
 
     print("All tests in `test_pos_embed` passed!")
 

@@ -7,3 +7,7 @@ nlp_transformers-python314-backup/
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
+
+# solution
+NLP_Lab1_Building_Transformers_Solutions.ipynb
+NLP_Lab1_Building_Transformers copy.ipynb
