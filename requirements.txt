@@ -1,0 +1,28 @@
+# Full lab environment: Python 3.11 or 3.12 (not Python 3.13/3.14).
+# Core ML
+torch==2.5.0
+numpy==1.26.4
+einops==0.8.0
+jaxtyping==0.2.34
+
+# Transformers / mechanistic interpretability
+transformers==4.56.1
+datasets==3.0.1
+# Keep Arrow compatible with the NumPy 1.x version used by these labs.
+pyarrow==17.0.0
+bertviz==1.4.1
+circuitsvis @ git+https://github.com/callummcdougall/CircuitsVis.git#subdirectory=python
+
+# Data & visualization
+matplotlib==3.9.2
+pandas==2.2.3
+
+# Utilities
+ipywidgets==8.1.5
+tqdm==4.66.5
+rich==13.9.2
+wandb==0.25.1
+
+# Notebook runtime
+notebook>=7,<8
+ipykernel>=6.29,<7

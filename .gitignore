@@ -1,0 +1,9 @@
+# Local virtual environments
+nlp_transformers/
+nlp_transformers-python314-backup/
+.venv/
+
+# Notebook / Python caches
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
