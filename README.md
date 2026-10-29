@@ -1,6 +1,6 @@
 # NLP Transformers Labs
 
-This repo containts the tutorial notebooks for the NLP course as part of the Master AI at the Vu. These notebooks cover:
+This repo containts the tutorial notebooks for the NLP course as part of the NLP course at University of Trieste. These notebooks cover:
 - Lab 1 Building transformers from scratch (opens with a 15-minute text-generation warm-up)
 - Lab 2 Using pretrained models
 
@@ -8,18 +8,35 @@ These notebooks are adapted from the original lab material in [cltl/nlp_transfor
 
 ## Setup
 
-Use **Python 3.11 or 3.12** for the full lab environment. The pinned PyTorch and NumPy versions do not support Python 3.13/3.14. Create a virtual environment with an explicit Python version:
+This repo uses [**uv**](https://docs.astral.sh/uv/) to manage the environment. Install it first if you don't have it:
 
 ```bash
-python3.12 -m venv nlp_transformers
-source nlp_transformers/bin/activate
-python -m pip install -r requirements.txt
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Then launch Jupyter:
+Use **Python 3.11 or 3.12** for the full lab environment. The pinned PyTorch and NumPy versions do not support Python 3.13/3.14. Create the virtual environment with an explicit Python version and install the dependencies:
+
+```bash
+uv venv --python 3.12
+uv pip install -r requirements.txt
+```
+
+This creates a `.venv/` directory. Activate it with:
+
+```bash
+source .venv/bin/activate
+```
+
+Then launch Jupyter (with the environment activated):
 
 ```bash
 python -m notebook
 ```
 
-In your notebook editor, select `nlp_transformers/bin/python` as the interpreter/kernel. If you already created the environment with a different Python version, recreate it using Python 3.11 or 3.12; upgrading pip alone does not change its Python version.
+Or, without activating, run commands through uv directly:
+
+```bash
+uv run python -m notebook
+```
+
+In your notebook editor, select `.venv/bin/python` as the interpreter/kernel. If you already created the environment with a different Python version, recreate it using Python 3.11 or 3.12 (`uv venv --python 3.12` will overwrite the existing `.venv`).
